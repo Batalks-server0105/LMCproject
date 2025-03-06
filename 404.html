@@ -1,0 +1,471 @@
+<form id="hospitalRegistrationForm" onsubmit="return handleFormSubmit(event)">
+    <h5>Register Your Hospital</h5>
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- Step 1: Hospital Basic Info -->
+    <div class="step active" id="step1">
+        <div class="form-group">
+            <h2>Basic Information</h2>
+            <label for="hospital-name">Hospital Name:</label>
+            <input type="text" id="hospital-name" name="hospital_name" placeholder="e.g., St. John’s Medical Center"
+                required>
+            <br>
+
+            <label for="hospital-type">Hospital Type:</label>
+            <select id="hospital-type" name="hospital_type" required>
+                <option value="" disabled selected>Select (optional)</option>
+                <option value="general">General Hospital</option>
+                <option value="specialty">Specialty Hospital (e.g., Cardiology, Orthopedics, Pediatrics)
+                </option>
+                <option value="clinic">Clinic</option>
+                <option value="other">Other (please specify below)</option>
+            </select>
+            <textarea id="other-type" name="other_type" placeholder="If 'Other,' please specify"
+                style="margin-top: 10px;"></textarea>
+            <br>
+
+            <!-- Location & Communication Section -->
+
+            <label for="hospital-address">Hospital Address:</label>
+            <textarea id="hospital-address" name="hospital_address"
+                placeholder="Street Address, City, State/Province, Postal Code, Country" required></textarea>
+            <br>
+
+            <label for="phone-number">Phone Number (with Country Code):</label>
+            <input type="tel" id="phone-number" name="phone_number" placeholder="+1 234 567 8901" required>
+            <br>
+
+            <label for="email-address">Email Address:</label>
+            <input type="email" id="email-address" name="email_address" placeholder="e.g., info@hospital.com" required>
+            <br>
+
+            <div class="mb-4">
+                <label for="website-url" class="form-label fw-semibold text-primary">
+                    Website URL <span class="text-muted">(Optional)</span>:
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                    <input type="url" id="website-url" name="website_url" class="form-control"
+                        placeholder="https://www.hospitalwebsite.com">
+                </div>
+                <div class="form-text">Enter your hospital's website URL, if available.</div>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="handleStepSubmit(1)">Next</button>
+        </div>
+
+    </div>
+
+    <!-- Step 2: Address Info -->
+    <div class="step" id="step2">
+        <form action="/submit-registration" method="POST" enctype="multipart/form-data">
+            <label for="insurance-type">Insurance Type (e.g., Medical Malpractice, Liability):</label>
+            <input type="text" id="insurance-type" name="insurance_type" placeholder="Enter insurance type (optional)">
+
+            <label for="provider-name">Provider Name:</label>
+            <input type="text" id="provider-name" name="provider_name" placeholder="Enter provider name (optional)">
+
+            <label for="policy-number">Policy Number:</label>
+            <input type="text" id="policy-number" name="policy_number" placeholder="Enter policy number (optional)">
+
+            <div class="mb-4">
+                <label for="proof-registration" class="form-label fw-semibold text-primary">
+                    Proof of Registration <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-secondary">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </span>
+                    <input type="file" id="proof-registration" name="proof_registration"
+                        class="form-control custom-file-input" accept=".pdf,.jpg,.png,.doc,.docx" required>
+                </div>
+                <div class="form-text text-muted">
+                    Accepted formats: .pdf, .jpg, .png, .doc, .docx (Required).
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="operating-license" class="form-label fw-semibold text-primary">
+                    Operating License <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-secondary">
+                        <i class="bi bi-card-checklist"></i>
+                    </span>
+                    <input type="file" id="operating-license" name="operating_license"
+                        class="form-control custom-file-input" accept=".pdf,.jpg,.png,.doc,.docx" required>
+                </div>
+                <div class="form-text text-muted">
+                    Accepted formats: .pdf, .jpg, .png, .doc, .docx (Required).
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="compliance-docs" class="form-label fw-semibold text-primary">
+                    Compliance Documents <span class="text-muted">(e.g., Accreditation, ISO Certificates)</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-secondary">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </span>
+                    <input type="file" id="compliance-docs" name="compliance_docs" multiple
+                        class="form-control custom-file-input" accept=".pdf,.jpg,.png,.doc,.docx">
+                </div>
+                <div class="form-text text-muted">
+                    You can upload multiple files. Accepted formats: .pdf, .jpg, .png, .doc, .docx.
+                </div>
+            </div>
+            <div class="section-title">Upload Supporting Documents</div>
+            <div class="mb-4">
+                <label for="license-docs" class="form-label fw-semibold text-primary">
+                    Upload License <span class="text-muted">(e.g., Operating License, Registration
+                        Certificate)</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-secondary">
+                        <i class="bi bi-file-earmark-medical"></i>
+                    </span>
+                    <input type="file" id="license-docs" name="license_docs" class="form-control custom-file-input"
+                        accept=".pdf,.jpg,.png,.doc,.docx" required>
+                </div>
+                <div class="form-text text-muted">
+                    Supported formats: .pdf, .jpg, .png, .doc, .docx. Upload is mandatory.
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="insurance-docs" class="form-label fw-semibold text-primary">
+                    Upload Insurance Documents <span class="text-muted">(e.g., Insurance Policy Details)</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-secondary">
+                        <i class="bi bi-file-earmark-shield"></i>
+                    </span>
+                    <input type="file" id="insurance-docs" name="insurance_docs" class="form-control custom-file-input"
+                        accept=".pdf,.jpg,.png,.doc,.docx" required>
+                </div>
+                <div class="form-text text-muted">
+                    Supported formats: .pdf, .jpg, .png, .doc, .docx. Upload is mandatory.
+                </div>
+            </div>
+
+
+            <div class="mb-4">
+                <label for="accreditation-docs" class="form-label fw-semibold text-primary">
+                    Upload Accreditation Documents <span class="text-muted">(e.g., NABH or JCI
+                        Certification)</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-secondary">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </span>
+                    <input type="file" id="accreditation-docs" name="accreditation_docs"
+                        class="form-control custom-file-input" accept=".pdf,.jpg,.png,.doc,.docx" required>
+                </div>
+                <div class="form-text text-muted">
+                    Supported formats: .pdf, .jpg, .png, .doc, .docx. This field is mandatory.
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Previous</button>
+                <button type="button" class="btn btn-primary" onclick="handleStepSubmit(2)">Next</button>
+            </div>
+
+
+
+        </form>
+        <!-- Supporting Documents Section -->
+
+
+    </div>
+
+    <!-- Step 3: Medical staff and Services -->
+    <div class="step" id="step3">
+        <form action="/submit-registration" method="POST" enctype="multipart/form-data">
+            <!-- Section 1: Medical Expertise -->
+            <h2>Medical Expertise</h2>
+            <!-- No. of Doctors -->
+            <label for="doctors">No. of Doctors:</label>
+            <input type="number" id="doctors" name="doctors" required>
+            <!-- Total Bed Capacity -->
+            <label for="bed-capacity">Total Bed Capacity:</label>
+            <input type="number" id="bed-capacity" name="bed_capacity" required>
+            <!-- Departments and Specialities -->
+            <div class="mb-3">
+                <label for="categories" class="form-label">Categories:</label>
+                <select class="form-select" id="categories" name="categories[]" multiple required>
+                    <option value="General Hospitals">General Hospitals</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Orthopedics">Orthopedics</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                </select>
+            </div>
+            <!-- List of Registered Doctors -->
+            <div class="mb-4">
+                <label for="doctors-list" class="form-label fw-semibold text-primary">
+                    List of Registered Doctors <span class="text-muted">(Upload)</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-secondary">
+                        <i class="bi bi-people-fill"></i>
+                    </span>
+                    <input type="file" id="doctors-list" name="doctors_list" class="form-control custom-file-input"
+                        accept=".pdf,.doc,.docx,.xls,.xlsx" required>
+                </div>
+                <div class="form-text text-muted">
+                    Supported formats: .pdf, .doc, .docx, .xls, .xlsx. This field is mandatory.
+                </div>
+            </div>
+
+            <!-- Key Healthcare Providers -->
+            <div class="mb-4">
+                <label for="key-providers-file" class="form-label fw-semibold text-primary">
+                    Key Healthcare Providers <span class="text-muted">(Upload)</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-secondary">
+                        <i class="bi bi-person-lines-fill"></i>
+                    </span>
+                    <input type="file" id="key-providers-file" name="key_providers_file"
+                        class="form-control custom-file-input" accept=".pdf,.doc,.docx,.xls,.xlsx" required>
+                </div>
+                <div class="form-text text-muted">
+                    Supported formats: .pdf, .doc, .docx, .xls, .xlsx. This field is mandatory.
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between ">
+                <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Previous</button>
+                <button type="button" class="btn btn-primary" onclick="handleStepSubmit(3)">Next</button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Step 4: Account Credentials -->
+    <!-- Form Section -->
+    <div class="step" id="step4">
+        <form action="/submit-documents" method="POST" enctype="multipart/form-data">
+
+
+            <!-- Operational Hours -->
+            <div class="mb-3">
+                <label for="weekday-hours" class="form-label">Operational Hours (Monday to Friday):</label>
+                <input type="time" id="weekday-start" name="weekday_start" class="form-control" placeholder="Start Time"
+                    required>
+                <input type="time" id="weekday-end" name="weekday_end" class="form-control" placeholder="End Time"
+                    required>
+            </div>
+
+            <!-- Weekend Operational Hours -->
+            <div class="mb-3">
+                <label for="weekend-hours" class="form-label optional">Optional: Operational Hours
+                    (Saturday/Sunday):</label>
+                <input type="time" id="weekend-start" name="weekend_start" class="form-control"
+                    placeholder="Start Time">
+                <input type="time" id="weekend-end" name="weekend_end" class="form-control" placeholder="End Time">
+            </div>
+
+            <!-- 24/7 Services -->
+            <div class="mb-3">
+                <label class="form-label">24/7 Services Available:</label>
+                <div class="d-flex gap-3">
+                    <label><input type="radio" name="services_24_7" value="Yes" class="form-check-input" required>
+                        Yes</label>
+                    <label><input type="radio" name="services_24_7" value="No" class="form-check-input" required>
+                        No</label>
+                </div>
+            </div>
+
+            <!-- Languages Spoken -->
+            <div class="mb-3">
+                <label for="languages" class="form-label">Languages Spoken:</label>
+                <select id="languages" name="languages[]" class="form-select" multiple required>
+                    <option value="English">English</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="French">French</option>
+                    <option value="German">German</option>
+                    <option value="Mandarin">Mandarin</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Arabic">Arabic</option>
+                </select>
+                <input type="text" id="languages-text" class="form-control mt-2" placeholder="Selected Languages"
+                    readonly>
+            </div>
+
+            <!-- Available Medical Equipment -->
+            <div class="mb-3">
+                <label for="medical-equipment" class="form-label">Available Medical Equipment:</label>
+                <textarea id="medical-equipment" name="medical_equipment" rows="5"
+                    placeholder="List all medical equipment available..." required></textarea>
+            </div>
+
+
+            <!-- Navigation Buttons -->
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Previous</button>
+                <button type="submit" class="btn btn-primary" onclick="handleStepSubmit(4)">Next</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="step" id="step5">
+        <div class="form-container">
+            <h1>Hospital Registration Information</h1>
+            <form id="registration-form" action="next-page.html" method="post">
+                <!-- Registration Information Section -->
+                <h2>Registration Information</h2>
+
+                <label for="registration-number">Registration Number:</label>
+                <input type="text" id="registration-number" name="registration_number" placeholder="e.g., H-123456789"
+                    required>
+
+                <label for="establishment-date">Date of Establishment:</label>
+                <input type="date" id="establishment-date" name="establishment_date" required>
+
+                <label for="license-number">License Number:</label>
+                <input type="text" id="license-number" name="license_number" placeholder="License Number" required>
+
+                <label for="issuing-authority">Issuing Authority:</label>
+                <input type="text" id="issuing-authority" name="issuing_authority" placeholder="Issuing Authority"
+                    required>
+
+                <label for="expiry-date">License Expiry Date:</label>
+                <input type="date" id="expiry-date" name="expiry_date" required>
+
+                <label for="accreditations">Accreditations & Certifications:</label>
+                <select id="accreditations" name="accreditations" multiple>
+                    <option value="nabh">NABH</option>
+                    <option value="jci">JCI</option>
+                    <option value="iso">ISO Certification</option>
+                    <option value="other">Other (Please specify below)</option>
+                </select>
+                <textarea id="other-accreditation" name="other_accreditation" placeholder="Please specify"
+                    style="margin-top: 10px;"></textarea>
+
+                <!-- Administrative Information Section -->
+                <h2>Ownership & Leadership</h2>
+
+                <label for="ownership-type">Ownership Type:</label><br>
+                <input type="radio" id="private" name="ownership_type" value="private">
+                <label for="private">Private</label><br>
+                <input type="radio" id="government" name="ownership_type" value="government">
+                <label for="government">Government</label><br>
+                <input type="radio" id="public-private" name="ownership_type" value="public-private">
+                <label for="public-private">Public-Private Partnership</label><br>
+                <input type="radio" id="other-ownership" name="ownership_type" value="other">
+                <label for="other-ownership">Other (Please specify below)</label>
+                <textarea id="other-ownership-type" name="other_ownership_type"
+                    placeholder="If 'Other,' please specify"></textarea>
+
+                <label for="ceo-name">CEO/Administrator Name:</label>
+                <input type="text" id="ceo-name" name="ceo_name" placeholder="e.g., Dr. John Doe" required>
+
+                <label for="ceo-contact">CEO/Administrator Contact:</label>
+                <label for="ceo-phone">Phone Number:</label>
+                <input type="tel" id="ceo-phone" name="ceo_phone" placeholder="e.g., +1 234 567 8901" required>
+
+                <label for="ceo-email">Email Address:</label>
+                <input type="email" id="ceo-email" name="ceo_email" placeholder="e.g., ceo@hospital.com" required>
+
+                <label for="medical-director">Medical Director’s Details:</label>
+                <label for="medical-director-name">Name:</label>
+                <input type="text" id="medical-director-name" name="medical_director_name"
+                    placeholder="Medical Director's Name">
+
+                <label for="medical-director-qualifications">Qualifications:</label>
+                <input type="text" id="medical-director-qualifications" name="medical_director_qualifications"
+                    placeholder="Medical Director's Qualifications">
+
+                <label for="medical-director-contact">Contact Information:</label>
+                <label for="director-phone">Phone Number:</label>
+                <input type="tel" id="director-phone" name="director_phone" placeholder="e.g., +1 234 567 8901">
+
+                <label for="director-email">Email Address:</label>
+                <input type="email" id="director-email" name="director_email" placeholder="e.g., director@hospital.com">
+
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(4)">Previous</button>
+                    <button type="submit" class="btn btn-primary" onclick="handleStepSubmit(5)">Next</button>
+                </div>
+
+            </form>
+        </div>
+
+
+
+
+    </div>
+    <div class="step" id="step6">
+        <div class="container">
+            <h2>Banking & Tax Information</h2>
+
+            <form action="#" method="POST">
+                <!-- Bank Account Information -->
+                <div class="form-group">
+                    <label for="account-name">Account Name:</label>
+                    <input type="text" id="account-name" name="account-name" placeholder="Enter account name" required>
+                </div>
+                <div class="form-group">
+                    <label for="bank-name">Bank Name:</label>
+                    <input type="text" id="bank-name" name="bank-name" placeholder="Enter bank name" required>
+                </div>
+                <div class="form-group">
+                    <label for="account-number">Account Number:</label>
+                    <input type="text" id="account-number" name="account-number" placeholder="Enter account number"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="ifsc-code">IFSC Code/SWIFT Code:</label>
+                    <input type="text" id="ifsc-code" name="ifsc-code" placeholder="Enter IFSC/SWIFT code" required>
+                </div>
+
+                <!-- Tax Identification Number -->
+                <div class="form-group">
+                    <label for="tax-id">Tax Identification Number (TIN):</label>
+                    <input type="text" id="tax-id" name="tax-id" placeholder="Enter TIN" required>
+                </div>
+
+
+            </form>
+        </div>
+        <div class="agreement-section">
+            <form id="registrationForm">
+                <h2>Agreement and Consent</h2>
+                <!-- Terms and Conditions -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" class="checkbox" required>
+                    <label for="terms" class="label">
+                        I agree to the <a href="/terms" target="_blank">Terms & Conditions</a> of Locate My
+                        Care.
+                    </label>
+                </div>
+
+                <!-- Privacy Policy -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="privacy-policy" class="checkbox" required>
+                    <label for="privacy-policy" class="label">
+                        I consent to the <a href="/privacy-policy" target="_blank">Privacy Policy</a> of Locate
+                        My Care.
+                    </label>
+                </div>
+
+                <!-- Declaration -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="declaration" class="checkbox" required>
+                    <label for="declaration" class="label">
+                        I declare that the information provided is accurate and true to the best of my
+                        knowledge.
+                    </label>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(5)">Previous</button>
+                    <button type="submit" class="btn btn-primary" onclick="handleStepSubmit(6)">register
+                        hospital</button>
+                </div>
+            </form>
+        </div>
+    </div>
+            
+</form>
